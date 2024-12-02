@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<div class="m-5 p-5 w-full h-full flex justify-center">
+{% if student %}
+<div class="hero-content flex-col lg:flex-row-reverse">
+    <div class="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+      <form class="card-body p-10" method="POST">
+        {% csrf_token %}
+        <div class="m-10">
+        <div class="form-control place-items-center mx-10">
+            <div class="w-24 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-26 h-26 text-blue-400">
+                    <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
+                  </svg>
+                  
+                  
+            </div>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Username</span>
+          </label>
+          <input type="text" placeholder="email" class="input input-bordered "  value="{{ student.username|safe }}" readonly/>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Email</span>
+          </label>
+          <input type="email" placeholder="email" class="input input-bordered "  value="{{ student.email|safe }}" name="email" />
+        </div>
+        <div class="form-control">
+            <label class="label">
+              <span class="label-text">Department id</span>
+            </label>
+            <input type="text" placeholder="Department id" class="input input-bordered "  value="{{ student.Department_id }}"  readonly/>
+          </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">FirstName</span>
+          </label>
+          <input type="text" placeholder="FirstName" class="input input-bordered "  value="{{ student.first_name|safe }}" name="fname" />
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">LastName</span>
+          </label>
+          <input type="text" placeholder="LastName" class="input input-bordered "  value="{{ student.last_name|safe }}" name="lname"/>
+        </div>
+        <div class="form-control mt-6">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+</div>
+{% endblock %}

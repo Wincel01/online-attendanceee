@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{% block ownscript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+{% if request.user.role == 'FACULTY' %}
+<div class="pt-10 card w-full h-full">
+    <div class="m-5 mx-10 card-body">
+    <div class="stats shadow border-2">
+  
+        <div class="stat place-items-center">
+          <div class="stat-title">Total Attendance</div>
+          <div class="stat-value text-primary">
+            {% if total_attendance %}
+            {{ total_attendance }}
+            {% else %}
+            0
+            {% endif %}
+          </div>
+          <div class="stat-desc">Total number of Attendance Taken</div>
+        </div>
+        
+        <div class="stat place-items-center">
+          <div class="stat-title">Staff Attendance</div>
+          <div class="stat-value text-primary">    
+            {% if staff_attendance %}
+            {{ staff_attendance }}
+            {% else %}
+            0
+            {% endif %}</div>
+          <div class="stat-desc">Number of Attendance taken by staff</div>
+        </div>
+        
+        
+        
+      </div>
+
+    </div>
+    <div class="px-10 card-title">
+      <div class="m-5 p-6 w-6/12 h-3/12">
+        <canvas id="Present_Chart" width="500" height="300"></canvas>
+      </div>
+      <div class="m-5 p-6 w-6/12 h-3/12">
+        <canvas id="Absent_Chart" width="500" height="300"></canvas>
+      </div>
+    </div>
+    
+
+<script>
+    const ctx = document.getElementById('Present_Chart');
+  
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{p_labels|safe}},
+        datasets: [{
+        label:"no of days present",
+        barPercentage: 0.5,
+        barThickness: 'flex',
+        maxBarThickness: 50,
+        minBarLength: 2,
+        data: {{p_data|safe}}
+    }]
+      },
+      options: {
+        scales: {
+        x: {
+            grid: {
+              offset: true
+            }
+        }
+    }
+    }
+    });
+
+
+    const ctx2 = document.getElementById('Absent_Chart');
+  
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: {{p_labels|safe}},
+        datasets: [{
+        label:"no of days absent",
+        barPercentage: 0.5,
+        barThickness: 'flex',
+        maxBarThickness: 50,
+        minBarLength: 2,
+        data: {{a_data|safe}}
+    }]
+      },
+      options: {
+        scales: {
+        x: {
+            grid: {
+              offset: true
+            }
+        }
+    }
+    }
+    });
+  </script>
+
+
+</div>
+
+
+{% else %}
+
+<div class="pt-10 card w-full h-full">
+  <div class="m-5 mx-10 card-body">
+    <div class="stats shadow border-2">
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Attendance</div>
+        <div class="stat-value text-primary">
+          {% if total_attendance %}
+          {{ total_attendance }}
+          {% else %}
+          0
+          {% endif %}
+        </div>
+        <div class="stat-desc">Total number of Attendance Taken</div>
+      </div>
+      
+      <div class="stat place-items-center">
+        <div class="stat-title">Present</div>
+        <div class="stat-value text-primary">    
+          {% if present %}
+          {{ present }}
+          {% else %}
+          0
+          {% endif %}</div>
+        <div class="stat-desc">Number of days present</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Absent</div>
+        <div class="stat-value text-primary">    
+          {% if absent %}
+          {{ absent }}
+          {% else %}
+          0
+          {% endif %}</div>
+        <div class="stat-desc">Number of days absent</div>
+      </div>
+    
+      
+      
+    </div>
+
+  </div>
+  <div class="px-10 card-title">
+    <div class="m-5 p-6 w-6/12 h-3/12">
+      <canvas id="MyChart" width="500" height="300"></canvas>
+    </div>
+  </div>
+
+<script>
+  const ctx = document.getElementById('MyChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{labels|safe}},
+      datasets: [{
+      label:"no of days present",
+      barPercentage: 0.5,
+      barThickness: 'flex',
+      maxBarThickness: 50,
+      minBarLength: 2,
+      data: {{data|safe}}
+  }]
+    },
+    options: {
+      scales: {
+      x: {
+          grid: {
+            offset: true
+          }
+      }
+  }
+  }
+  });
+
+
+  
+</script>
+</div>
+
+
+
+{% endif %}
+
+{% endblock %}

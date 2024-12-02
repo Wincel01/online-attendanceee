@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="w-full h-full flex justify-center overflow-hidden">
+{% if attendance %}
+<div class="w-screen m-10 overflow-hidden">
+<table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 overflow-hidden">
+  <thead class="bg-gray-100 dark:bg-gray-700 overflow-hidden">
+    <tr>
+        <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+           Date
+        </th>
+        <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+          Student_id
+        </th>
+        <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+          Subject
+        </th>
+        <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+          Period
+        </th>
+        <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+          Status
+        </th>
+        <th scope="col" class="p-4">
+            <span class="sr-only">Edit</span>
+        </th>
+    </tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700 overflow-hidden">
+  {% for attend in attendance %}
+  {% if attend.present %}
+  <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 bg-green-200">
+                
+    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ attend.date }}</td>
+    <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">{{ attend.student_id }}</td>
+    <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">{{ attend.subject }}</td>
+    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{ attend.period }} </td>
+    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> Present </td>
+  </tr>
+  {% else %}
+  <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 bg-red-200">
+                
+    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white ">{{ attend.date }}</td>
+    <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white ">{{ attend.student_id }}</td>
+    <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white ">{{ attend.subject }}</td>
+    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white "> {{ attend.period }} </td>
+    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white "> Absent </td>
+  </tr>
+  {% endif %}
+
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+
+
+
+
+<br/>
+
+{% else %}
+<form action="{% url 'faculty_index' %}" method="post" class="py-5 px-5 mt-10 shadow-2xl rounded-md">
+    {% csrf_token %}
+<div class="m-3 flex flex-row gap-10">
+{% if subjects %}
+<select class="select select-bordered w-full max-w-xs p-2 mt-7" name="subject">
+<option disabled selected>Select Subject</option>
+{% for subject in subjects %}
+<option>{{ subject.name }}</option>
+{% endfor %}
+</select>
+{% endif %}
+{% if periods %}
+<select class="select select-bordered w-full max-w-xs p-2 mt-7" name="period">
+<option disabled selected>Select Period</option>
+{% for period in periods %}
+<option>{{ period }}</option>
+{% endfor %}
+</select>
+{% endif %}
+    <label for="date" class="label"> Date<input type="date" name="Date" class="p-2 m-5" id="date"></label>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          
+          <th>Department_id</th>
+          <th>Name</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if Students %}
+        {% for student in Students %}
+        <tr>
+            <td>
+                <input type="hidden" name="student-id" value="{{ student.Department_no }}" >{{ student.Department_no }}
+            </td>
+            <td>{{ student.get_full_name }}</td>
+            <td>
+                
+                <label for="" class="label">Absent
+                    <input type="radio" name="{{ student.Department_no }}" class="radio radio-error" value="False" checked />
+                </label>
+                <label for="" class="label">Present
+                    <input type="radio" name="{{ student.Department_no }}" class="radio radio-success" value="True" />
+                </label>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="w-full flex justify-center mt-9"><button type="submit" class="btn">Submit</button></div>
+  
+
+</form>
+
+{% endif %}
+</div>
+
+{% endblock %}

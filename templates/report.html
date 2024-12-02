@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="w-full h-full flex justify-center">
+  <div class="overflow-hidden ">
+    <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
+        <thead class="bg-gray-100 dark:bg-gray-700">
+            <tr>
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                   Attendance
+                </th>
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                  FileType
+                </th>
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Option
+                </th>
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                  Download
+                </th>
+                <th scope="col" class="p-4">
+                    <span class="sr-only">Edit</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Full</td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">CSV</td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">All</td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <button class="btn btn-outline btn-secondary flex flex-column gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                      </svg> 
+                    <a href="{% url 'full_report' %}" class="">Download</a>
+                </button>
+                </td>
+            </tr>
+            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                <form action="{% url 'full_report' %}" method="post">
+                    {% csrf_token %}
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Faculty</td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">CSV</td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                    <!-- faculty options  -->
+                    {% if faculty %}
+                    <select name="fac_id" class="select w-full max-w-xs">
+                        {% for fac in faculty %}
+                        <option value="{{fac.Department_no}}">{{fac.Department_no}}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                </td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <button class="btn btn-outline btn-secondary flex flex-column gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                      </svg> 
+                    <a href="#" class="">Download</a>
+                </button>
+                </td>
+            </form>
+            </tr>
+            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                <form action="{% url 'full_report' %}" method="post">
+                    {% csrf_token %}
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Student</td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">CSV</td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                    <!-- faculty options  -->
+                    {% if students %}
+                    <select name="Stud_id" class="select w-full max-w-xs">
+                        {% for Stud in students %}
+                        <option value="{{ Stud.Department_no }}">{{ Stud.Department_no }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                </td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <button class="btn btn-outline btn-secondary flex flex-column gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                      </svg> 
+                    <a href="#" class="">Download</a>
+                </button>
+                </td>
+            </form>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+</div>
+  {% endblock %}

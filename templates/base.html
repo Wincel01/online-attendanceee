@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}" > -->
+    {% block ownstyle %}
+    {% endblock %}
+
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <div class="navbar bg-base-100">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost btn-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+        </label>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <!-- <li><a>Homepage</a></li> -->
+          {% if request.user.role == 'FACULTY' %}
+          <li><a href="{% url 'faculty_index' %}">Attendance</a></li>
+          <li><a href="{% url 'faculty_Profile_page' %}">Profile</a></li>
+          <li><a href="{% url 'faculty_Dashboard' %}">Dashboard</a></li>
+          {% endif %}
+
+          {% if request.user.role == 'STUDENT' %}
+          <li><a href="{% url 'student_profile_page' %}">Profile</a></li>
+          <li><a href="{% url 'student_index' %}">Dashboard</a></li>
+          {% endif %}
+          <li><a href="{% url 'report_view' %}">Report</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="navbar-center">
+      DS Attendance
+    </div>
+    <div class="navbar-end">
+        
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn m-1">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+        </label>
+
+        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow rounded-box w-52">
+          {% if request.user.role == 'FACULTY' %}
+          <li><a href="{% url 'faculty_change_passwd_page' %}">Change password</a></li>
+          <li><a href="{% url 'logout_page' %}">Logout</a></li>
+          {% endif %}
+          {% if request.user.role == 'STUDENT' %}
+          <li><a href="{% url 'student_change_pass_page' %}">Change password</a></li>
+          <li><a href="{% url 'logout_page' %}">Logout</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+    {% endif %}
+    {% if messages %}
+    {% for message in messages %}
+    <div role="alert" {% if message.tags %} class="alert alert-{{ message.tags }}  mx-5 text-white"{% endif %} id="alertBox">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+        <span class="">{{ message }}</span>
+        <button class="btn " onclick="close_alert()"> 
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+
+        </button>
+      </div>
+    {% endfor %}
+    {% endif %}
+      <div class="hero min-h-screen">  
+          {% block body %}
+      
+          {% endblock %}
+      </div>
+    <script src="https://cdn.tailwindcss.com"></script>
+<!-- <script src="{% static 'js/script.js' %}" ></script> -->
+<script type="text/javascript">
+    function close_alert() {
+        var alertBox= 
+        document.getElementById("alertBox");
+        alertBox.parentNode.removeChild(alertBox);
+    }
+</script>
+{% block ownscript %}
+{% endblock %}
+</body>
+</html>

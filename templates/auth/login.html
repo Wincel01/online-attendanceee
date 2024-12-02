@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+
+<div class="">
+  <div class="hero-content flex-col lg:flex-row-reverse">
+    <div class="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+      <form action="{% url 'login_page' %}" method="POST" class="card-body">
+        {% csrf_token %}
+        <h1 class="text-5xl font-bold py-10 px-3">Login Form</h1>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Department ID</span>
+          </label>
+          <input type="text" placeholder="Department ID" class="input input-bordered" name="username" required />
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Password</span>
+          </label>
+          <input type="password" placeholder="password" class="input input-bordered" name="password" required />
+          
+        </div>
+        <div class="form-control mt-6">
+          <button class="btn btn-primary">Login</button>
+        </div>
+        <!-- <div class="form-control py-5 text-center">
+            <a href="{% url 'admin:index' %}" class="btn btn-neutral">Admin Page</a>
+        </div> -->
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
